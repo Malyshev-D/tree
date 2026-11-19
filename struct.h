@@ -1,7 +1,7 @@
 #ifndef HEARTOFIRON
 #define HEARTOFIRON
 
-typedef int Elem_t;
+typedef const char* Elem_t;
 
 struct Node_t {
     int index;
@@ -9,6 +9,11 @@ struct Node_t {
     Node_t* parent;
     Node_t* left;
     Node_t* right;
+};
+
+enum error_value {
+    NOERROR,
+    WAYERROR,
 };
 
 #endif

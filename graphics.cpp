@@ -1,3 +1,4 @@
+// #include "TXLib.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -44,7 +45,7 @@ void DrawGraph(Node_t node)
     FILE* g_file = fopen(graph_code, "w");
     fprintf(g_file, "digraph G {\n");
     fprintf(g_file, "bgcolor=\"#0a0b17\";\n");
-    fprintf(g_file, "node[fontsize=9, color=\"#8bf3ff\","
+    fprintf(g_file, "node[fontsize=12, color=\"#8bf3ff\","
         "style=\"rounded, filled\", fillcolor=\"#060844\","
         "fontname=\"Arial\", fontcolor=\"#8bf3ff\"];\n"
         "edge [style=solid, color=\"#24ffed\"];\n");
@@ -57,8 +58,8 @@ void DrawGraph(Node_t node)
 
 void DrawNode(FILE* file, Node_t node)
 {
-    fprintf(file, "\"%d\"[shape=record, label=\"{data = %d|parent = %zu|{left = %zu|right = %zu}}\"];\n",
-    node.index, node.data, (size_t)node.parent, (size_t)node.left, (size_t)node.right);
+    fprintf(file, "\"%d\"[shape=record, label=\"{%s}\"];\n",
+    node.index, node.data);
     if (node.left != NULL)
     {
         DrawNode(file, *node.left);

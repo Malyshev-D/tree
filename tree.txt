@@ -1,1 +1,1 @@
-(30(500(nil)(444(nil)(nil)))(22(nil)(nil)))
+("In Europe?"("Bigger than Germany?"("Is in EU?"("Russia"(nil)(nil))("France"(nil)(nil)))("Liechtenstein"(nil)(nil)))("Is in Americas?"("Brasil"(nil)(nil))("Loves Kimchi?"("Has true democracy?"("South Korea"(nil)(nil))("North Korea"(nil)(nil)))("Australia"(nil)(nil)))))
