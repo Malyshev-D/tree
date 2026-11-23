@@ -8,6 +8,7 @@
 const char html_code[] = "meow.html";
 const char graph_code[] = "meow.txt";
 
+// начало дампа = открытие html файла
 FILE* DumpBegin()
 {
     FILE* file = fopen(html_code, "w");
@@ -20,6 +21,7 @@ FILE* DumpBegin()
     return file;
 }
 
+// закрытие файла
 void DumpEnd(FILE* file)
 {
     fprintf(file,
@@ -29,17 +31,19 @@ void DumpEnd(FILE* file)
     system("start meow.html");
 }
 
-void TreeDump(FILE* file, Node_t node, int* dump_count)
+// дамп дерева
+void TreeDump(FILE* file, Tree_t* tree)
 {
-    DrawGraph(node);
+    DrawGraph(*(tree->root_node));
     // snprintf() - создаем форматированную строку и вставляем в system
     char command[150] = {};
-    snprintf(command, sizeof(command), "dot -Tpng meow.txt -o meow%d.png", *dump_count);
+    snprintf(command, sizeof(command), "dot -Tpng meow.txt -o meow%d.png", tree->dump_count);
     system(command);
-    CreateHtml(file, *dump_count);
-    (*dump_count)++;
+    CreateHtml(file, tree->dump_count);
+    tree->dump_count++;
 }
 
+// рисуем граф
 void DrawGraph(Node_t node)
 {
     FILE* g_file = fopen(graph_code, "w");
@@ -56,10 +60,15 @@ void DrawGraph(Node_t node)
     fclose(g_file);
 }
 
+// рисуем узел, используем рекурсию
 void DrawNode(FILE* file, Node_t node)
 {
     fprintf(file, "\"%d\"[shape=record, label=\"{%s}\"];\n",
     node.index, node.data);
+
+    // fprintf(file, "\"%d\"[shape=record, label=\"{data = %s|parent = %zu|{left = %zu|right = %zu}}\"];\n",
+    // node.index, node.data, (size_t)node.parent, (size_t)node.left, (size_t)node.right);
+
     if (node.left != NULL)
     {
         DrawNode(file, *node.left);
@@ -72,6 +81,7 @@ void DrawNode(FILE* file, Node_t node)
     }
 }
 
+// создание html файла
 void CreateHtml(FILE* file, int dump_num)
 {
     fprintf(file,

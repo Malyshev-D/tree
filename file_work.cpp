@@ -7,24 +7,24 @@
 #include "tree_op.h"
 #include "file_work.h"
 
-const char tree_read[] = "tree.txt";
-
-Node_t* ReadTree(int* node_count) // возвращаем корень
+// читалка дерева из файла
+Node_t* ReadTree(const char* name, Tree_t* tree)
 {
-    FILE* file = fopen(tree_read, "r");
+    FILE* file = fopen(name, "r");
     if (file == 0)
     {
         printf("Error: file is equal NULL in file: %s in line %d", __FILE__, __LINE__);
         return NULL;
     }
 
-    Node_t* root_node = ReadNode(file, 0, node_count);
+    Node_t* root_node = ReadNode(file, 0, tree);
 
     fclose(file);
     return root_node;
 }
 
-Node_t* ReadNode(FILE* file, Node_t* parent, int* node_count)
+// рекурсивное чтение одного узла
+Node_t* ReadNode(FILE* file, Node_t* parent, Tree_t* tree)
 {
     Elem_t data = 0;
     char sym = getc(file);
@@ -39,9 +39,9 @@ Node_t* ReadNode(FILE* file, Node_t* parent, int* node_count)
             sym = getc(file);
         }
         data = strdup(string);
-        Node_t* node = NewNode(data, parent, 0, node_count);
-        node->left = ReadNode(file, node, node_count);
-        node->right = ReadNode(file, node, node_count);
+        Node_t* node = NewNode(data, parent, tree);
+        node->left = ReadNode(file, node, tree);
+        node->right = ReadNode(file, node, tree);
         sym = getc(file);
         return node;
     }
@@ -54,6 +54,7 @@ Node_t* ReadNode(FILE* file, Node_t* parent, int* node_count)
     }
 }
 
+// печать дерева
 void PrintTree(FILE* file, Node_t* node)
 {
     fprintf(file, "(\"%s\"", node->data);

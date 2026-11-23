@@ -6,17 +6,20 @@
 #include "graphics.h"
 #include "file_work.h"
 #include "tree_op.h"
-
-int main()
+// g++ main.cpp graphics.cpp file_work.cpp tree_op.cpp -Wall -Wextra
+int main(int argc, char* argv[])
 {
-    int dump_count = 0;
-    int node_count = 0;
+    const char* tree_read = argv[1];
+    const char* tree_print = argv[2];
+
     FILE* file = DumpBegin();
+    (void)argc;                                     // STUB
+    Tree_t tree = {};
+    tree.root_node = ReadTree(tree_read, &tree);
 
-    Node_t* root_node = ReadTree(&node_count);
+    UserInterface(tree_print, &tree);
 
-    UserInterface(root_node, &node_count);
-    TreeDump(file, *root_node, &dump_count);
+    TreeDump(file, &tree);
     DumpEnd(file);
     return 0;
 }
